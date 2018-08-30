@@ -1,28 +1,23 @@
-const Sequelize = require('sequelize')
-const db = new Sequelize(process.ENV.DATBASE_URL || 'postgres://localhost:5432/acme-crud', { logging: false });
+const express = require('express');
+const app = express();
+const { db, User } = require('./db');
+const morgan = require('morgan');
+const path = require('path');
+const PORT = 3000;
 
-const User = db.define('user', {
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
-})
+app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-const seed = () => {
-    Promise.all([
-            User.create({ name: 'moe' }),
-            User.create({ name: 'larry' }),
-            User.create({ name: 'curly' }),
-        ])
-        .then(() => {
-            console.log('users seeded')
-        })
+app.get('/api/users/', async (req, res, next) => {
+  const users = await User.findAll();
+  res.json(users);
+});
 
-}
+app.get('/', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public'));
+});
 
-db.sync({ force: true })
-    .then(() => {
-        seed()
-    })
-
-module.exports = { db, User }
+app.listen(PORT, () => {
+  console.log(`Listening on port: ${PORT}..`);
+});
