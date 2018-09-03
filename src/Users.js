@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default class Users extends Component {
   render() {
     const { users, deleteUser, prepopUser } = this.props;
     return (
-      <div>
+      <div className="users">
         <h1>Users</h1>
-        <hr />
+        <div>
+          <hr />
+        </div>
+
         {users.map(user => {
           return (
-            <div key={user.id}>
-              <hr />
-              <Link
-                to={`/users/${user.id}`}
-                onClick={() => prepopUser(user.name)}
-              >
-                {user.name}
-              </Link>
-              <div>
-                <div onClick={() => deleteUser(user)}>X</div>
+            <div className="user-btn" key={user.id}>
+              <div className="user-link">
+                <Link
+                  to={`/users/${user.id}`}
+                  onClick={() => prepopUser(user.name)}
+                >
+                  {user.name}
+                </Link>
+              </div>
+              <div className="del-btn" onClick={() => deleteUser(user)}>
+                X
               </div>
             </div>
           );

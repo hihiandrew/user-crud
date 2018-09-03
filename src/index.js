@@ -31,9 +31,6 @@ class Main extends Component {
       .then(resp => {
         this.setState({ users: resp.data });
       })
-      .then(() => {
-        console.log(`${user.name} deleted.`);
-      })
       .catch(err => {
         console.log(err);
       });
@@ -55,11 +52,9 @@ class Main extends Component {
         const updatedUsers = this.state.users.map(user => {
           user.id === id * 1 ? resp.data : user;
         });
-        console.log(updatedUsers);
         this.setState({
           users: updatedUsers,
         });
-        console.log(this.state.users);
       })
       .catch(err => console.log(err));
   }
