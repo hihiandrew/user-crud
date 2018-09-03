@@ -11,11 +11,13 @@ class Main extends Component {
     super();
     this.state = {
       users: [],
-      newUser: '',
+      selectUser: '',
+      updated: false,
     };
-    this.handleDel = this.handleDel.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.addUser = this.addUser.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.prepopUser = this.prepopUser.bind(this);
   }
 
   componentDidMount() {
@@ -24,7 +26,7 @@ class Main extends Component {
     });
   }
 
-  handleDel(user) {
+  deleteUser(user) {
     Axios.delete(`/api/users/${user.id}`)
       .then(resp => {
         this.setState({ users: resp.data });
@@ -37,49 +39,66 @@ class Main extends Component {
       });
   }
 
-  handleChange(event) {
-    event.preventDefault();
-    this.setState({ newUser: event.target.value });
-  }
-
-  handleSubmit() {
-    Axios.post('/', { name: this.state.newUser })
+  addUser(user) {
+    Axios.post('/', user)
       .then(resp => {
         this.setState({
           users: [...this.state.users, resp.data],
-          newUser: '',
         });
       })
       .catch(err => console.log(err));
+  }
+
+  updateUser(user, id) {
+    Axios.put(`/api/users/${id}`, user)
+      .then(resp => {
+        const updatedUsers = this.state.users.map(user => {
+          user.id === id * 1 ? resp.data : user;
+        });
+        console.log(updatedUsers);
+        this.setState({
+          users: updatedUsers,
+        });
+        console.log(this.state.users);
+      })
+      .catch(err => console.log(err));
+  }
+
+  prepopUser(selectUser) {
+    this.setState({ selectUser });
   }
 
   render() {
     return (
       <HashRouter>
         <div>
-          <Navbar
-            handeHome={this.handleHome}
-            handleUsers={this.handleUsers}
-            handleAdd={this.handleAdd}
-          />
+          <Navbar users={this.state.users} prepopUser={this.prepopUser} />
           <Route
             path="/users"
             users={this.state.users}
             render={() => {
               return (
-                <Users users={this.state.users} handleDel={this.handleDel} />
+                <Users
+                  users={this.state.users}
+                  deleteUser={this.deleteUser}
+                  prepopUser={this.prepopUser}
+                />
               );
             }}
           />
           <Route
             exact
-            path="/users/add"
-            render={() => {
+            path="/users/:id"
+            render={({ location }) => {
+              const id = location.pathname.split('/').pop();
+              const user = this.state.users.find(user => user.id === id * 1);
               return (
                 <AddUser
-                  handleSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
-                  newUser={this.state.newUser}
+                  id={id}
+                  user={user}
+                  addUser={this.addUser}
+                  updateUser={this.updateUser}
+                  prepopUser={this.state.selectUser}
                 />
               );
             }}

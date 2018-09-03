@@ -17,7 +17,6 @@ app.get('/api/users/', async (req, res, next) => {
 });
 
 app.post('/', (req, res, next) => {
-  console.log(req.body);
   User.create(req.body)
     .then(user => {
       res.json(user);
@@ -25,11 +24,11 @@ app.post('/', (req, res, next) => {
     .catch(next);
 });
 
-app.put('/', (req, res, next) => {
-  User.update(req.body)
-    .then(user => {
-      res.json(user);
-    })
+app.put('/api/users/:id', (req, res, next) => {
+  User.findById(req.params.id)
+    .then(user => user.update(req.body))
+    .then(user => res.json(user))
+    //.then(async () => res.send(await User.findAll()))
     .catch(next);
 });
 
