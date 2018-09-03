@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Axios from 'axios';
 import Navbar from './Navbar';
+import Home from './Home';
 import Users from './Users';
 import AddUser from './AddUser';
 import { HashRouter, Route } from 'react-router-dom';
@@ -68,6 +69,7 @@ class Main extends Component {
       <HashRouter>
         <div>
           <Navbar users={this.state.users} prepopUser={this.prepopUser} />
+          <Route exact path="/" component={Home} />
           <Route
             path="/users"
             users={this.state.users}
