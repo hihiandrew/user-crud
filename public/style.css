@@ -1,0 +1,50 @@
+* {
+  font-family: Arial;
+  text-decoration: none;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+
+.nav-btn {
+  padding: 15%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  white-space: nowrap;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 8%;
+  background-color: rgb(83, 174, 231);
+}
+
+.users {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.del-btn {
+  display: flex;
+  border-style: solid;
+  vertical-align: center;
+  background-color: orange;
+
+  width: 70px;
+  height: 30px;
+}
+
+.del-btn:hover {
+  cursor: pointer;
+  background-color: red;
+}
