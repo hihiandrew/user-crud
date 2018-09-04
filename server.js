@@ -10,9 +10,9 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-app.use('/dist', express.static('dist'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/users/', async (req, res, next) => {
   const users = await User.findAll();
