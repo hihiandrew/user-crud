@@ -7,9 +7,13 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 
 app.use(morgan('dev'));
+
 app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
+
 app.get('/api/users/', async (req, res, next) => {
   const users = await User.findAll();
   res.json(users);
@@ -44,7 +48,7 @@ app.delete('/api/users/:id', (req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'public'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(PORT, () => {
