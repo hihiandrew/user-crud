@@ -10,9 +10,9 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/users/', async (req, res, next) => {
   const users = await User.findAll();
@@ -48,7 +48,7 @@ app.delete('/api/users/:id', (req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
