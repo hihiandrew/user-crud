@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { db, User } = require('./db');
+const { User } = require('./db');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
+app.use('/dist', express.static('dist'));
 
 app.get('/api/users/', async (req, res, next) => {
   const users = await User.findAll();
