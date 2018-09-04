@@ -50,8 +50,11 @@ class Main extends Component {
   updateUser(user, id) {
     Axios.put(`/api/users/${id}`, user)
       .then(resp => {
-        const updatedUsers = this.state.users.map(user => {
-          user.id === id * 1 ? resp.data : user;
+        const updatedUsers = this.state.users.map(userObj => {
+          if (userObj.id == id * 1) {
+            return resp.data;
+          }
+          return userObj;
         });
         this.setState({
           users: updatedUsers,

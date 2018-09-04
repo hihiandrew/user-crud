@@ -28,7 +28,6 @@ app.put('/api/users/:id', (req, res, next) => {
   User.findById(req.params.id)
     .then(user => user.update(req.body))
     .then(user => res.json(user))
-    //.then(async () => res.send(await User.findAll()))
     .catch(next);
 });
 
