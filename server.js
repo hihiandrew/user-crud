@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log(__dirname);
+
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/users/', async (req, res, next) => {
